@@ -1,0 +1,22 @@
+import React, { useState, useContext, useEffect } from 'react'
+
+import useFetch from './useFetch'
+export const API_ENDPOINT = `https://www.themoviedb.org/?apikey=69dfedb1eb201d807f606113157f374f`
+const AppContext = React.createContext()
+
+const AppProvider = ({ children }) => {
+  const [query, setQuery] = useState('batman')
+  const { isLoading, error, data: movies } = useFetch(`&s=${query}`)
+
+  return (
+    <AppContext.Provider value={{ isLoading, error, movies, query, setQuery }}>
+      {children}
+    </AppContext.Provider>
+  )
+}
+
+export const useGlobalContext = () => {
+  return useContext(AppContext)
+}
+
+export { AppContext, AppProvider }
